@@ -78,12 +78,22 @@ export declare const CreateDocSchema: z.ZodObject<{
     title: string;
     content: string;
 }>;
-export declare const UpdateDocSchema: z.ZodObject<{
+export declare const UpdateDocSchema: z.ZodEffects<z.ZodObject<{
     project_id: z.ZodNumber;
     doc_id: z.ZodNumber;
     title: z.ZodOptional<z.ZodString>;
     content: z.ZodOptional<z.ZodString>;
 }, "strip", z.ZodTypeAny, {
+    project_id: number;
+    doc_id: number;
+    title?: string | undefined;
+    content?: string | undefined;
+}, {
+    project_id: number;
+    doc_id: number;
+    title?: string | undefined;
+    content?: string | undefined;
+}>, {
     project_id: number;
     doc_id: number;
     title?: string | undefined;

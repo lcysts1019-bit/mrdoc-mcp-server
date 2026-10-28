@@ -13,11 +13,17 @@ import { loadConfig } from "./config.js";
 import { MrDocClient } from "./client.js";
 import { getToolDefinitions, handleToolCall } from "./tools.js";
 
-// Load configuration
-const config = loadConfig();
+// Load configuration with error handling
+let config: ReturnType<typeof loadConfig>;
+try {
+  config = loadConfig();
+} catch (err) {
+  console.error("Failed to load configuration:", err instanceof Error ? err.message : String(err));
+  process.exit(1);
+}
 
 // Create MrDoc client
-const client = new MrDocClient(config);
+const client = new MrDocClient(config!);
 
 // Create server instance
 const server = new Server(
@@ -47,7 +53,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
 // Start the server
 async function main() {
-  if (!config.token) {
+  if (!config!.token) {
     console.error("Error: MRDOC_TOKEN environment variable is not set");
     process.exit(1);
   }

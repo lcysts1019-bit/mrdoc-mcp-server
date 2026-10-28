@@ -72,6 +72,15 @@ export interface SearchResponse {
   count: number;
 }
 
+// GetSelfDocs response
+export interface GetSelfDocsResponse {
+  status: number;
+  data: DocMeta[];
+  count?: number;
+  page?: number;
+  page_size?: number;
+}
+
 // Create/Update response
 export interface CreateDocResponse {
   status: number;

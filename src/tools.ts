@@ -240,8 +240,8 @@ export async function handleToolCall(
       }
 
       case "list_docs": {
-        const { project_id } = ListDocsSchema.parse(args);
-        const result = await client.listDocs(project_id);
+        const { project_id, page, page_size } = ListDocsSchema.parse(args);
+        const result = await client.listDocs(project_id, page, page_size);
         return success(JSON.stringify(result, null, 2));
       }
 
@@ -264,6 +264,7 @@ export async function handleToolCall(
       }
 
       case "get_self_docs": {
+        GetSelfDocsSchema.parse(args);
         const result = await client.getSelfDocs();
         return success(JSON.stringify(result, null, 2));
       }

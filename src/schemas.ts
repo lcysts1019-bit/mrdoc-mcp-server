@@ -47,13 +47,17 @@ export const CreateDocSchema = z.object({
   content: z.string().describe("Document content (Markdown format)"),
 });
 
-// Update an existing document
-export const UpdateDocSchema = z.object({
-  project_id: z.number().describe("Project/knowledge space ID"),
-  doc_id: z.number().describe("Document ID"),
-  title: z.string().optional().describe("Document title"),
-  content: z.string().optional().describe("Document content (Markdown format)"),
-});
+// Update an existing document — title/content 至少传一个
+export const UpdateDocSchema = z
+  .object({
+    project_id: z.number().describe("Project/knowledge space ID"),
+    doc_id: z.number().describe("Document ID"),
+    title: z.string().optional().describe("Document title"),
+    content: z.string().optional().describe("Document content (Markdown format)"),
+  })
+  .refine((data) => data.title !== undefined || data.content !== undefined, {
+    message: "title 和 content 至少需要提供一个",
+  });
 
 // Get project details
 export const GetProjectSchema = z.object({

@@ -59,6 +59,13 @@ export interface SearchResponse {
     page_size: number;
     count: number;
 }
+export interface GetSelfDocsResponse {
+    status: number;
+    data: DocMeta[];
+    count?: number;
+    page?: number;
+    page_size?: number;
+}
 export interface CreateDocResponse {
     status: number;
     data: {

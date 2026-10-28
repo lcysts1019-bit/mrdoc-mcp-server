@@ -6,8 +6,15 @@ import { CallToolRequestSchema, ListToolsRequestSchema, } from "@modelcontextpro
 import { loadConfig } from "./config.js";
 import { MrDocClient } from "./client.js";
 import { getToolDefinitions, handleToolCall } from "./tools.js";
-// Load configuration
-const config = loadConfig();
+// Load configuration with error handling
+let config;
+try {
+    config = loadConfig();
+}
+catch (err) {
+    console.error("Failed to load configuration:", err instanceof Error ? err.message : String(err));
+    process.exit(1);
+}
 // Create MrDoc client
 const client = new MrDocClient(config);
 // Create server instance

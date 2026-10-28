@@ -1,5 +1,5 @@
 // Tool definitions and handlers for MrDoc MCP Server
-import { SearchDocsSchema, GetDocSchema, GetDocContentSchema, ListProjectsSchema, ListDocsSchema, GetProjectDocsSchema, CreateDocSchema, UpdateDocSchema, GetProjectSchema, CreateProjectSchema, UploadImgSchema, } from "./schemas.js";
+import { SearchDocsSchema, GetDocSchema, GetDocContentSchema, ListProjectsSchema, ListDocsSchema, GetProjectDocsSchema, CreateDocSchema, UpdateDocSchema, GetProjectSchema, GetSelfDocsSchema, CreateProjectSchema, UploadImgSchema, } from "./schemas.js";
 // Helper to create success result
 function success(text) {
     return {
@@ -191,8 +191,8 @@ export async function handleToolCall(client, name, args) {
                 return success(JSON.stringify(result, null, 2));
             }
             case "list_docs": {
-                const { project_id } = ListDocsSchema.parse(args);
-                const result = await client.listDocs(project_id);
+                const { project_id, page, page_size } = ListDocsSchema.parse(args);
+                const result = await client.listDocs(project_id, page, page_size);
                 return success(JSON.stringify(result, null, 2));
             }
             case "get_project_docs": {
@@ -211,6 +211,7 @@ export async function handleToolCall(client, name, args) {
                 return success(`Document updated successfully!\n\n${JSON.stringify(result, null, 2)}`);
             }
             case "get_self_docs": {
+                GetSelfDocsSchema.parse(args);
                 const result = await client.getSelfDocs();
                 return success(JSON.stringify(result, null, 2));
             }
